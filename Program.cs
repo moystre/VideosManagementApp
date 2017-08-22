@@ -1,47 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using VideoApplication;
+using VideoAppBLL;
+using VideoAppEntity;
 
-namespace VideoApplication
+namespace VideoAppUI
 {
     class Program
     {
-        static int id = 1;
-        static List<Video> videos = new List<Video>();
+        static BLLFacade bllFacade = new BLLFacade(); 
 
         static void Main(string[] args)
         {
-            videos.Add(new Video()
+            #region addingStartUpVideos
+
+            bllFacade.VideoService.Create(new Video()
             {
-                Id = id++,
                 Title = "Lord of the ringz",
                 Genre = "Fantasy",
                 Duration = 432
             });
 
-            videos.Add(new Video()
+            bllFacade.VideoService.Create(new Video()
             {
-                Id = id++,
                 Title = "Spongebob Firekant",
                 Genre = "everything",
                 Duration = 6666
             });
 
-            videos.Add(new Video()
+            bllFacade.VideoService.Create(new Video()
             {
-                Id = id++,
                 Title = "Letel Litelel Mermaid",
                 Genre = "cortoonz",
                 Duration = 92
             });
 
-            videos.Add(new Video()
+            bllFacade.VideoService.Create(new Video()
             {
-                Id = id++,
                 Title = "Lalalandeded",
                 Genre = "comedy",
                 Duration = 83
             });
+
+            #endregion
+
 
             string[] menuItems = {
                 "Show list of videos",
@@ -105,7 +106,7 @@ namespace VideoApplication
         static void ShowListOfVideos()
         {
             Console.WriteLine("List of videos:");
-            foreach (var video in videos)
+            foreach (var video in bllFacade.VideoService.GetAll())
             {
                 ShowVideoInformation(video);
             }
@@ -121,16 +122,10 @@ namespace VideoApplication
             {
                 Console.WriteLine("Pass a number please. Try again.");
             }
-            foreach (var video in videos)
-            {
-                if (video.Id == id)
-                {
-                    return video;
-                }
-            }
-            goto noSuchVideo;
+            return bllFacade.VideoService.Get(id);
+            //goto noSuchVideo;
 
-            noSuchVideo:
+            //noSuchVideo:
             Console.WriteLine($"Video with id: {id} does not exist. Try again: ");
             goto videoId;
         }
@@ -142,7 +137,7 @@ namespace VideoApplication
                 Console.WriteLine("The video does not exist. Try again.");
             }
             else
-            Console.WriteLine($"{video.Id}   |   {video.Title} | {video.Genre} | {video.Duration}");
+                Console.WriteLine($"{video.Id}   |   {video.Title} | {video.Genre} | {video.Duration}");
         }
 
         static void AddVideo()
@@ -155,11 +150,11 @@ namespace VideoApplication
                 Console.WriteLine("You have to insert a title. Try again: ");
                 goto emptyName;
             }
-            
+
             Console.WriteLine("Genre: ");
             emptyGenere:
             var genre = Console.ReadLine();
-            if(genre.Length == 0)
+            if (genre.Length == 0)
             {
                 Console.WriteLine("You have to insert a genre. Try again: ");
                 goto emptyGenere;
@@ -171,17 +166,15 @@ namespace VideoApplication
                 Console.WriteLine("Please insert a number.");
             }
 
-            var video = new Video()
+            bllFacade.VideoService.Create(new Video()
             {
-                Id = id++,
                 Title = title,
                 Genre = genre,
                 Duration = duration
-            };
-            videos.Add(video);
+            });
 
-            ShowVideoInformation(video);
-            Console.WriteLine($"Video {id-1} added.");
+            //ShowVideoInformation(video);
+            //Console.WriteLine($"Video {id - 1} added.");
         }
 
         static void EditVideo()
@@ -191,34 +184,46 @@ namespace VideoApplication
             Console.WriteLine("Actual video information: ");
             ShowVideoInformation(video);
 
-            Console.WriteLine("Pass new information: \n");
-            Console.WriteLine("Title: ");
-            video.Title = Console.ReadLine();
-            Console.WriteLine("Genre: ");
-            video.Genre = Console.ReadLine();
-            Console.WriteLine("Duration: ");
-            int duration = 0;
-            while (!int.TryParse(Console.ReadLine(), out duration))
+            if (video != null)
             {
-                Console.WriteLine("Please pass a nymber.");
+                Console.WriteLine("Pass new information: \n");
+                Console.WriteLine("Title: ");
+                video.Title = Console.ReadLine();
+                Console.WriteLine("Genre: ");
+                video.Genre = Console.ReadLine();
+                Console.WriteLine("Duration: ");
+                int duration = 0;
+                while (!int.TryParse(Console.ReadLine(), out duration))
+                {
+                    Console.WriteLine("Please pass a number.");
+                }
+
+                video.Duration = duration;
+
+                Console.WriteLine("Video infomation changed");
+                ShowVideoInformation(video);
             }
-
-            video.Duration = duration;
-
-            Console.WriteLine("Video infomation changed");
-            ShowVideoInformation(video);
+            else
+            {
+                Console.WriteLine("Video not found");
+            }
+      
         }
 
         static void DeleteVideo()
         {
             var video = GetVideoById();
-            int id = video.Id;
             if(video != null)
             {
-                videos.Remove(video);
+                bllFacade.VideoService.Delete(video.Id);
+                Console.WriteLine($"Video {video.Id} has been deleted.");
             }
-            Console.WriteLine($"Video {id} has been deleted.");
+            else
+            {
+                Console.WriteLine("Video not found");
+            }
         }
+
 
     }
 }
