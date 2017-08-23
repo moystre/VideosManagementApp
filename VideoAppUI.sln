@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
@@ -39,45 +38,3 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
-=======
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppUI", "VideoAppUI\VideoAppUI.csproj", "{979DA14C-C272-4728-A04D-FA8C75CA445B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppBLL", "VideoAppBLL\VideoAppBLL.csproj", "{B29CEE8F-CBF9-478A-8CA8-9D61E93CBF3E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppDAL", "VideoAppDAL\VideoAppDAL.csproj", "{25BC24F2-2DAF-4DBA-98A0-7F14F41BFD13}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAppEntity", "VideoAppEntity\VideoAppEntity.csproj", "{B9EC4015-485E-4C0D-A088-DE96013775EF}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{979DA14C-C272-4728-A04D-FA8C75CA445B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{979DA14C-C272-4728-A04D-FA8C75CA445B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{979DA14C-C272-4728-A04D-FA8C75CA445B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{979DA14C-C272-4728-A04D-FA8C75CA445B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B29CEE8F-CBF9-478A-8CA8-9D61E93CBF3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B29CEE8F-CBF9-478A-8CA8-9D61E93CBF3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B29CEE8F-CBF9-478A-8CA8-9D61E93CBF3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B29CEE8F-CBF9-478A-8CA8-9D61E93CBF3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25BC24F2-2DAF-4DBA-98A0-7F14F41BFD13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25BC24F2-2DAF-4DBA-98A0-7F14F41BFD13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25BC24F2-2DAF-4DBA-98A0-7F14F41BFD13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25BC24F2-2DAF-4DBA-98A0-7F14F41BFD13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9EC4015-485E-4C0D-A088-DE96013775EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9EC4015-485E-4C0D-A088-DE96013775EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9EC4015-485E-4C0D-A088-DE96013775EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9EC4015-485E-4C0D-A088-DE96013775EF}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
->>>>>>> 0a357279231e7a75f6d1e8198398d50c39a98014
