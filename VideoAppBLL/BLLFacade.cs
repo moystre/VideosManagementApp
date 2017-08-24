@@ -19,7 +19,7 @@ namespace VideoAppBLL
         {
             get
             {
-                    return new VideoService(new DALFacade().);
+                return new VideoService(new DALFacade().VideoRepository);
             }
         }
     }

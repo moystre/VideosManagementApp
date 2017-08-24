@@ -5,14 +5,16 @@ using VideoAppDAL.Repositories;
 
 namespace VideoAppDAL
 {
-    public class DALFacede
+    public class DALFacade
     {
         public IVideoRepository VideoRepository
         {
-            get
-            {
-                return new VideoRepositoryFakeDB();
-            }
+                //return new VideoRepositoryFakeDB();
+                get 
+                {
+                    //returning inmemory repository
+                    return new VideoRepositoryEFMemory(new Context.InMemoryContext());
+                }
         }
     }
 }
