@@ -214,17 +214,14 @@ namespace VideoAppUI
 
         static void DeleteVideo()
         {
-            var video = GetVideoById();
-            if(video != null)
+            var videoFound = GetVideoById();
+            if (videoFound != null)
             {
-                bllFacade.VideoService.Delete(video.Id);
-                Console.WriteLine($"Video {video.Id} has been deleted.");
+                bllFacade.VideoService.Delete(videoFound.Id);
             }
-            else
-            {
-                Console.WriteLine("Video not found");
-                //dfasdfgasdgs
-            }
+                var response = videoFound == null ?
+               "Video not found" : $"Video {videoFound.Id} has been deleted.";
+            Console.WriteLine(response);
         }
 
 

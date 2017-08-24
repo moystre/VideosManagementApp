@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using VideoAppBLL.Services;
-using VideoAppEntity;
+using VideoAppDAL;
 
 namespace VideoAppBLL
 {
@@ -15,16 +15,11 @@ namespace VideoAppBLL
         //    return new VideoService();
         //}
 
-        public void Create(Video video)
-        {
-            throw new NotImplementedException();
-        }
-
         public IVideoService VideoService
         {
             get
             {
-                    return new VideoService();
+                    return new VideoService(new DALFacade().);
             }
         }
     }

@@ -9,24 +9,22 @@ namespace VideoAppBLL.Services
 {
     class VideoService : IVideoService
     {
+        IVideoRepository repository;
+        public VideoService(IVideoRepository repository)
+        {
+            this.repository = repository;
+        }
+
+        //implementations moved to VideoRepositoryFakeDB:
+        
         public Video Create(Video video)
         {
-            Video newVideo;
-            FakeDB.Videos.Add(newVideo = new Video()
-            {
-                Id = FakeDB.Id++,
-                Title = video.Title,
-                Genre = video.Genre,
-                Duration = video.Duration
-            });
-            return newVideo;
+            return this.repository.Create(video);
         }
 
         public Video Delete(int Id)
         {
-            var video = Get(Id);
-            FakeDB.Videos.Remove(video);
-            return video;
+            return this.repository.Delete(Id);
 
             //var listOfVideos = FakeDB.Videos.Where(x => x.Id == Id).ToList();
             //FakeDB.Videos.RemoveAll(x => x.Id == Id);
@@ -35,12 +33,12 @@ namespace VideoAppBLL.Services
 
         public Video Get(int Id)
         {
-            return FakeDB.Videos.FirstOrDefault(x => x.Id == Id);
+            return this.repository.Get(Id);
         }
 
         public List<Video> GetAll()
         {
-            return new List<Video>(FakeDB.Videos);
+            return this.repository.GetAll();
         }
 
         public Video Update(Video video)
