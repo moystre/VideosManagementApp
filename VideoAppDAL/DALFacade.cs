@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using VideoAppDAL.Repositories;
+using VideoAppDAL.UOW;
 
 namespace VideoAppDAL
 {
@@ -15,6 +16,14 @@ namespace VideoAppDAL
                     //returning inmemory repository
                     return new VideoRepositoryEFMemory(new Context.InMemoryContext());
                 }
+        }
+
+        public IUnitOfWork UnitOfWork
+        {
+            get
+            {
+                return new UnitOfWorkMemory();
+            }
         }
     }
 }

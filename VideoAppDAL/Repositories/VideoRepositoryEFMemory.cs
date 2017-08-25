@@ -19,8 +19,6 @@ namespace VideoAppDAL.Repositories
         public Video Create(Video video)
         {
             _context.Videos.Add(video);
-            _context.SaveChanges();
-            _context.SaveChanges();
             return video;
         }
 

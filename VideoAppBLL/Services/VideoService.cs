@@ -9,22 +9,33 @@ namespace VideoAppBLL.Services
 {
     class VideoService : IVideoService
     {
-        IVideoRepository repository;
-        public VideoService(IVideoRepository repository)
+        //IVideoRepository repository;
+        DALFacade facade;
+        public VideoService(DALFacade facade)
         {
-            this.repository = repository;
+            this.facade = facade;
         }
 
         //implementations moved to VideoRepositoryFakeDB:
-        
+
         public Video Create(Video video)
         {
-            return this.repository.Create(video);
+            using (var uow = facade.UnitOfWork)
+            {
+                var newVideo = uow.VideoRepository.Create(video);
+                uow.Complete();
+                return newVideo;
+            }
         }
 
         public Video Delete(int Id)
         {
-            return this.repository.Delete(Id);
+            using (var uow = facade.UnitOfWork)
+            {
+                var newVideo = uow.VideoRepository.Delete(Id);
+                uow.Complete();
+                return newVideo;
+            }
 
             //var listOfVideos = FakeDB.Videos.Where(x => x.Id == Id).ToList();
             //FakeDB.Videos.RemoveAll(x => x.Id == Id);
@@ -33,25 +44,37 @@ namespace VideoAppBLL.Services
 
         public Video Get(int Id)
         {
-            return this.repository.Get(Id);
+            using (var uow = facade.UnitOfWork)
+            {
+                return uow.VideoRepository.Get(Id);
+            }
         }
 
         public List<Video> GetAll()
         {
-            return this.repository.GetAll();
+            using (var uow = facade.UnitOfWork)
+            {
+                return uow.VideoRepository.GetAll();
+            }
         }
 
         public Video Update(Video video)
         {
-            var videoFromDB = Get(video.Id);
-            if (videoFromDB == null)
+            using(var uow = facade.UnitOfWork)
             {
-                throw new InvalidOperationException("Video not found");
+                var videoFromDB = uow.VideoRepository.Get(video.Id);
+                if (videoFromDB == null)
+                {
+                    throw new InvalidOperationException("Video not found");
+                }
+                videoFromDB.Title = video.Title;
+                videoFromDB.Genre = video.Genre;
+                videoFromDB.Duration = video.Duration;
+                uow.Complete();
+                return videoFromDB;
             }
-            videoFromDB.Title = video.Title;
-            videoFromDB.Genre = video.Genre;
-            videoFromDB.Duration = video.Duration;
-            return videoFromDB;
+            
+            
         }
     }
 }

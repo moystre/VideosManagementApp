@@ -7,7 +7,7 @@ using VideoAppDAL;
 namespace VideoAppBLL
 {
     public class BLLFacade
-    {
+    { 
         //choose one of two ways
 
         //public IVideoService GetVideoService()
@@ -19,7 +19,7 @@ namespace VideoAppBLL
         {
             get
             {
-                return new VideoService(new DALFacade().VideoRepository);
+                return new VideoService(new DALFacade());
             }
         }
     }

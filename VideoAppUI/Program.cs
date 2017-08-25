@@ -7,7 +7,6 @@ using VideoAppEntity;
 namespace VideoAppUI
 {
     class Program
-        //fasdfas
     {
         static BLLFacade bllFacade = new BLLFacade(); 
 
@@ -176,7 +175,7 @@ namespace VideoAppUI
             });
 
             //ShowVideoInformation(video);
-            //Console.WriteLine($"Video {id - 1} added.");
+            Console.WriteLine($"Video added.");
         }
 
         static void EditVideo()
@@ -201,7 +200,7 @@ namespace VideoAppUI
                 }
 
                 video.Duration = duration;
-
+                bllFacade.VideoService.Update(video);
                 Console.WriteLine("Video infomation changed");
                 ShowVideoInformation(video);
             }
@@ -209,8 +208,9 @@ namespace VideoAppUI
             {
                 Console.WriteLine("Video not found");
             }
-      
-        }
+
+        }            
+
 
         static void DeleteVideo()
         {
