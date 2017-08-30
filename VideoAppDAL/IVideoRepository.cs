@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using VideoAppEntity;
+using VideoAppUI.VideoAppDAL.Entities;
 
 namespace VideoAppDAL
 {
@@ -15,6 +15,6 @@ namespace VideoAppDAL
         //no update - task for UOW
         //D
         Video Delete(int Id);
-
+        //
     }
 }

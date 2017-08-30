@@ -2,40 +2,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using VideoAppBLL;
-using VideoAppEntity;
+using VideoAppUI.VideoAppBLL.BusinessObjects;
 
 namespace VideoAppUI
 {
     class Program
     {
-        static BLLFacade bllFacade = new BLLFacade(); 
+        static BLLFacade bllFacade = new BLLFacade();
 
         static void Main(string[] args)
         {
             #region addingStartUpVideos
 
-            bllFacade.VideoService.Create(new Video()
+            bllFacade.VideoService.Create(new VideoBO()
             {
                 Title = "Lord of the ringz",
                 Genre = "Fantasy",
                 Duration = 432
             });
 
-            bllFacade.VideoService.Create(new Video()
+            bllFacade.VideoService.Create(new VideoBO()
             {
                 Title = "Spongebob Firekant",
                 Genre = "everything",
                 Duration = 6666
             });
 
-            bllFacade.VideoService.Create(new Video()
+            bllFacade.VideoService.Create(new VideoBO()
             {
                 Title = "Letel Litelel Mermaid",
                 Genre = "cortoonz",
                 Duration = 92
             });
 
-            bllFacade.VideoService.Create(new Video()
+            bllFacade.VideoService.Create(new VideoBO()
             {
                 Title = "Lalalandeded",
                 Genre = "comedy",
@@ -49,6 +49,7 @@ namespace VideoAppUI
                 "Show list of videos",
                 "Search for video",
                 "Add video",
+                "Add multiple videos",
                 "Edit information about existing video",
                 "Delete video",
                 "Exit the application"
@@ -66,12 +67,15 @@ namespace VideoAppUI
                         ShowVideoInformation(GetVideoById());
                         break;
                     case 3:
-                        AddVideo();
+                        AddCreatedVideo(AddVideo());
                         break;
                     case 4:
-                        EditVideo();
+                        AddMultipleVideos();
                         break;
                     case 5:
+                        EditVideo();
+                        break;
+                    case 6:
                         DeleteVideo();
                         break;
                     default:
@@ -96,7 +100,7 @@ namespace VideoAppUI
 
             int selection;
             while (!int.TryParse(Console.ReadLine(), out selection)
-                || selection > items.Length
+                || selection > items.Length + 1
                 || selection < 0)
             {
                 Console.WriteLine("Select existing item");
@@ -114,7 +118,7 @@ namespace VideoAppUI
             Console.WriteLine("");
         }
 
-        static Video GetVideoById()
+        static VideoBO GetVideoById()
         {
             int id;
             videoId:
@@ -131,7 +135,7 @@ namespace VideoAppUI
             goto videoId;
         }
 
-        static void ShowVideoInformation(Video video)
+        static void ShowVideoInformation(VideoBO video)
         {
             if (video == null)
             {
@@ -141,7 +145,7 @@ namespace VideoAppUI
                 Console.WriteLine($"{video.Id}   |   {video.Title} | {video.Genre} | {video.Duration}");
         }
 
-        static void AddVideo()
+        static VideoBO AddVideo()
         {
             Console.WriteLine("Title: ");
             emptyName:
@@ -167,15 +171,40 @@ namespace VideoAppUI
                 Console.WriteLine("Please insert a number.");
             }
 
-            bllFacade.VideoService.Create(new Video()
-            {
-                Title = title,
-                Genre = genre,
-                Duration = duration
-            });
+            VideoBO video = new VideoBO();
+            video.Title = title;
+            video.Genre = genre;
+            video.Duration = duration;
 
-            //ShowVideoInformation(video);
-            Console.WriteLine($"Video added.");
+            return video;
+        }
+
+        static void AddCreatedVideo(VideoBO video)
+        {
+            var newVideo = bllFacade.VideoService.Create(video);
+            ShowVideoInformation(newVideo);
+            Console.WriteLine($"Video {newVideo.Id} added.");
+        }
+
+        static void AddMultipleVideos()
+        {
+            List<VideoBO> list = new List<VideoBO>();
+
+            addingVideo:
+            Console.WriteLine("Add video:");
+            list.Add(AddVideo());
+
+            Console.WriteLine("Do you want to add next video? Type Y / N");
+            var response = Console.ReadLine();
+            if (response.Equals("Y") || response.Equals("y"))
+            {
+                goto addingVideo;
+            }
+            else
+            {
+                bllFacade.VideoService.CreateVideos(list);
+                Console.WriteLine($"{list.Count} videos added.");
+            }
         }
 
         static void EditVideo()

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using VideoAppEntity;
+using VideoAppUI.VideoAppDAL.Entities;
 
 namespace VideoAppDAL.Context
 {

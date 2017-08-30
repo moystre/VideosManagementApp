@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using VideoAppEntity;
+using VideoAppUI.VideoAppDAL.Entities;
 
 namespace VideoAppDAL.Repositories
 {

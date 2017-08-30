@@ -2,63 +2,79 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using VideoAppBLL.Converter;
 using VideoAppDAL;
-using VideoAppEntity;
+using VideoAppUI.VideoAppBLL.BusinessObjects;
+using VideoAppUI.VideoAppDAL.Entities;
 
 namespace VideoAppBLL.Services
 {
     class VideoService : IVideoService
     {
-        //IVideoRepository repository;
         DALFacade facade;
+        VideoConverter conv = new VideoConverter();
+
         public VideoService(DALFacade facade)
         {
             this.facade = facade;
         }
 
-        //implementations moved to VideoRepositoryFakeDB:
-
-        public Video Create(Video video)
+        public VideoBO Create(VideoBO video)
         {
             using (var uow = facade.UnitOfWork)
             {
-                var newVideo = uow.VideoRepository.Create(video);
+                var newVideo = uow.VideoRepository.Create(conv.Convert(video));
                 uow.Complete();
-                return newVideo;
+                return conv.Convert(newVideo);
             }
         }
 
-        public Video Delete(int Id)
+        public List<VideoBO> CreateVideos(List<VideoBO> listOfVideos)
+        {
+            using (var uow = facade.UnitOfWork)
+            {
+                List<VideoBO> newListOfVideos = new List<VideoBO>();
+                foreach (var VideoBO in listOfVideos)
+                {
+                    var newVideo = uow.VideoRepository.Create(conv.Convert(VideoBO));
+                    newListOfVideos.Add(conv.Convert(newVideo));
+                }
+                uow.Complete();
+                return newListOfVideos;
+            }      
+        }
+
+        public VideoBO Delete(int Id)
         {
             using (var uow = facade.UnitOfWork)
             {
                 var newVideo = uow.VideoRepository.Delete(Id);
                 uow.Complete();
-                return newVideo;
+                return conv.Convert(newVideo);
             }
 
             //var listOfVideos = FakeDB.Videos.Where(x => x.Id == Id).ToList();
             //FakeDB.Videos.RemoveAll(x => x.Id == Id);
-
         }
 
-        public Video Get(int Id)
+        public VideoBO Get(int Id)
         {
             using (var uow = facade.UnitOfWork)
             {
-                return uow.VideoRepository.Get(Id);
+                return conv.Convert(uow.VideoRepository.Get(Id));
             }
         }
 
-        public List<Video> GetAll()
+        public List<VideoBO> GetAll()
         {
             using (var uow = facade.UnitOfWork)
             {
-                return uow.VideoRepository.GetAll();
+                //list of Videos -> VideoBO
+                return uow.VideoRepository.GetAll().Select(v => conv.Convert(v)).ToList();
             }
         }
 
-        public Video Update(Video video)
+        public VideoBO Update(VideoBO video)
         {
             using(var uow = facade.UnitOfWork)
             {
@@ -71,10 +87,8 @@ namespace VideoAppBLL.Services
                 videoFromDB.Genre = video.Genre;
                 videoFromDB.Duration = video.Duration;
                 uow.Complete();
-                return videoFromDB;
+                return conv.Convert(videoFromDB);
             }
-            
-            
         }
     }
 }

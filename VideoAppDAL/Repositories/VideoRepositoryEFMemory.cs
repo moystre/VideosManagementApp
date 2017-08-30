@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using VideoAppDAL.Context;
-using VideoAppEntity;
+using VideoAppUI.VideoAppDAL.Entities;
 
 namespace VideoAppDAL.Repositories
 {
@@ -20,6 +20,11 @@ namespace VideoAppDAL.Repositories
         {
             _context.Videos.Add(video);
             return video;
+        }
+
+        public object Create()
+        {
+            throw new NotImplementedException();
         }
 
         public Video Delete(int Id)
